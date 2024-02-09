@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="show_image">Show Image</string>
+    <string name="genres">"Genres: "</string>
+    <string name="score">"Score: "</string>
+    <string name="status">"Status: "</string>
+</resources>

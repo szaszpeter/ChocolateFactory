@@ -18,4 +18,12 @@
         </action>
     </fragment>
 
+    <fragment
+        android:id="@+id/showDetailFragment"
+        android:name="com.codarchy.presentation_detail.ShowDetailFragment"
+        android:label="Show Specs">
+        <deepLink
+            app:uri="android-app://com.codarchy.presentationdetail.details" />
+    </fragment>
+
 </navigation>
