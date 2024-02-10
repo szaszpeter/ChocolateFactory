@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="show_image">Show Image</string>
-    <string name="genres">"Genres: "</string>
-    <string name="score">"Score: "</string>
-    <string name="status">"Status: "</string>
+    <string name="name_tag">Name:</string>
+    <string name="description_tag">Description:</string>
+    <string name="profession_tag">Profession:</string>
+    <string name="country_tag">Country:</string>
+    <string name="height_tag">Height:</string>
+    <string name="gender_tag">Gender:</string>
 </resources>

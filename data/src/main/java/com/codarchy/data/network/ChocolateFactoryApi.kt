@@ -9,4 +9,7 @@ interface ChocolateFactoryApi {
     @GET("napptilus/oompa-loompas")
     suspend fun getFactoryEmployees(@Query("page") page: Int): EmployeeResponse
 
+    @GET("napptilus/oompa-loompas/{id}")
+    suspend fun getEmployeeDetails(@Path("id") id: Int): EmployeeDetailResponse
+
 }
