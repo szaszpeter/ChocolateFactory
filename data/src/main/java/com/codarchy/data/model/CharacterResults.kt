@@ -1,12 +1,12 @@
 package com.codarchy.data.model
 
-data class EmployeeResults(
+data class CharacterResults(
     val current: Int,
     val total: Int,
-    val results: List<PersonDetails>
+    val results: List<CharacterDetails>
 )
 
-data class PersonDetails(
+data class CharacterDetails(
     val firstName: String,
     val lastName: String,
     val favorite: Favorite,

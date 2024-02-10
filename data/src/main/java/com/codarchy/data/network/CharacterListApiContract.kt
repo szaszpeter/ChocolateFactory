@@ -3,13 +3,13 @@ package com.codarchy.data.network
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-data class EmployeeResponse(
+data class CharacterResponse(
     @SerializedName("current") @Expose val current: Int,
     @SerializedName("total") @Expose val total: Int,
-    @SerializedName("results") @Expose val results: List<PersonDetails>
+    @SerializedName("results") @Expose val results: List<CharacterDetails>
 )
 
-data class PersonDetails(
+data class CharacterDetails(
     @SerializedName("first_name") @Expose val firstName: String,
     @SerializedName("last_name") @Expose val lastName: String,
     @SerializedName("favorite") @Expose val favorite: Favorite,

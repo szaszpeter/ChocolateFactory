@@ -4,9 +4,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.codarchy.data.errorhandling.ResultWrapper
-import com.codarchy.data.model.PersonDetails
-import com.codarchy.domain.list.HumanResourcesUseCase
-import com.codarchy.domain.selection.SaveSelectedEmployeeUseCase
+import com.codarchy.data.model.CharacterDetails
+import com.codarchy.domain.list.CharactersInventoryUseCase
+import com.codarchy.domain.selection.SaveSelectedCharacterUseCase
 import com.codarchy.presentations_landing.di.IoDispatcher
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
@@ -17,24 +17,24 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LandingViewModel @Inject constructor(
-    private val humanResourcesUseCase: HumanResourcesUseCase,
-    private val saveSelectedEmployeeUseCase: SaveSelectedEmployeeUseCase,
+    private val charactersInventoryUseCase: CharactersInventoryUseCase,
+    private val saveSelectedCharacterUseCase: SaveSelectedCharacterUseCase,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ): ViewModel() {
 
     val state = mutableStateOf<LandingScreenContent>(Loading)
-    val data = mutableListOf<PersonDetails>()
+    val data = mutableListOf<CharacterDetails>()
     var currentPage = mutableStateOf(1)
 
     init {
-        fetchEmployees()
+        fetchCharacters()
     }
 
-    fun fetchEmployees() {
+    fun fetchCharacters() {
         viewModelScope.launch {
             state.value = Loading
             withContext(ioDispatcher) {
-                when(val employeeResponse = humanResourcesUseCase.invoke(1)) {
+                when(val characterResponse = charactersInventoryUseCase.invoke(1)) {
                     is ResultWrapper.NetworkError -> {
                         withContext(Dispatchers.Main) {
                             showNetworkError()
@@ -47,10 +47,10 @@ class LandingViewModel @Inject constructor(
                         }
                     }
                     is ResultWrapper.Success -> {
-                        if (employeeResponse.value.results.isNotEmpty()) {
-                            state.value = PersonListReady(employeeResponse.value.results)
+                        if (characterResponse.value.results.isNotEmpty()) {
+                            state.value = CharacterListReady(characterResponse.value.results)
                             data.clear()
-                            data.addAll(employeeResponse.value.results)
+                            data.addAll(characterResponse.value.results)
                         } else {
                             state.value = Empty
                         }
@@ -68,8 +68,8 @@ class LandingViewModel @Inject constructor(
         state.value = NetworkError
     }
 
-    fun onPersonClicked(person: PersonDetails) {
-        saveSelectedEmployeeUseCase.invoke(person)
+    fun onPersonClicked(person: CharacterDetails) {
+        saveSelectedCharacterUseCase.invoke(person)
     }
 
     fun onSearch(query: String) {
@@ -79,7 +79,7 @@ class LandingViewModel @Inject constructor(
 
 
 sealed class LandingScreenContent
-data class PersonListReady(val shows: List<PersonDetails>) : LandingScreenContent()
+data class CharacterListReady(val shows: List<CharacterDetails>) : LandingScreenContent()
 object Loading : LandingScreenContent()
 object Empty: LandingScreenContent()
 object NetworkError: LandingScreenContent()

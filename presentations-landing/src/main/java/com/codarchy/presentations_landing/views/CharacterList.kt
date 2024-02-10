@@ -26,47 +26,34 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavDeepLinkRequest
-import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
 import coil.compose.AsyncImage
-import com.codarchy.data.model.PersonDetails
-import com.codarchy.presentations_search.R
+import com.codarchy.data.model.CharacterDetails
 import com.codarchy.presentations_landing.LandingViewModel
+import com.codarchy.presentations_landing.extensions.navigateToDetails
 
 @Composable
-fun EmployeeList(viewModel: LandingViewModel = hiltViewModel()) {
+fun CharacterList(viewModel: LandingViewModel = hiltViewModel()) {
 
     LazyVerticalGrid(
         columns = GridCells.Adaptive(minSize = 128.dp),
     ) {
         items(viewModel.data) {
-            PersonDetail(it)
+            CharacterItem(it)
         }
     }
 }
 
 @Composable
-fun PersonDetail(person: PersonDetails, viewModel: LandingViewModel = hiltViewModel()) {
+fun CharacterItem(character: CharacterDetails, viewModel: LandingViewModel = hiltViewModel()) {
     val view = LocalView.current
     Box(
         modifier = Modifier
             .padding(4.dp)
             .clickable {
-                viewModel.onPersonClicked(person)
-                val navOptions =
-                    NavOptions.Builder()
-                        .setEnterAnim(R.anim.slide_in_right)
-                        .setExitAnim(R.anim.slide_out_left)
-                        .setPopEnterAnim(R.anim.slide_in_left)
-                        .setPopExitAnim(R.anim.slide_out_right)
-                        .build()
-                val request = NavDeepLinkRequest.Builder
-                    .fromUri("android-app://com.codarchy.presentationdetail.details".toUri())
-                    .build()
-                Navigation.findNavController(view).navigate(request, navOptions)
+                viewModel.onPersonClicked(character)
+                Navigation.findNavController(view).navigateToDetails()
             }
             .fillMaxWidth()
             .background(Color.Transparent, shape = RoundedCornerShape(8.dp)),
@@ -75,11 +62,11 @@ fun PersonDetail(person: PersonDetails, viewModel: LandingViewModel = hiltViewMo
         Column {
 
             AsyncImage(
-                model = person.image,
+                model = character.image,
                 contentDescription = "Show Image",
-                contentScale = ContentScale.FillBounds,
+                contentScale = ContentScale.Fit,
                 modifier = Modifier
-                    .height(240.dp)
+                    .height(128.dp)
                     .clip(RoundedCornerShape(8.dp))
                     .background(color = Color.DarkGray, shape = RoundedCornerShape(8.dp))
             )
@@ -94,7 +81,7 @@ fun PersonDetail(person: PersonDetails, viewModel: LandingViewModel = hiltViewMo
                                 fontSize = 12.sp,
                             )
                         ) {
-                            append(person.firstName)
+                            append(character.firstName)
                         }
                     }
                 },

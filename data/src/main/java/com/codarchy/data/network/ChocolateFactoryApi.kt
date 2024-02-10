@@ -7,9 +7,9 @@ import retrofit2.http.Query
 interface ChocolateFactoryApi {
 
     @GET("napptilus/oompa-loompas")
-    suspend fun getFactoryEmployees(@Query("page") page: Int): EmployeeResponse
+    suspend fun getFactoryCharacters(@Query("page") page: Int): CharacterResponse
 
     @GET("napptilus/oompa-loompas/{id}")
-    suspend fun getEmployeeDetails(@Path("id") id: Int): EmployeeDetailResponse
+    suspend fun getCharacterDetails(@Path("id") id: Int): CharacterDetailResponse
 
 }

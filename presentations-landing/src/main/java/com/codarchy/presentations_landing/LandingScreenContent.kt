@@ -9,7 +9,7 @@ import com.codarchy.common.ErrorContent
 import com.codarchy.common.Loading
 import com.codarchy.presentations_landing.views.EmptyScreen
 import com.codarchy.presentations_landing.views.SearchBar
-import com.codarchy.presentations_landing.views.EmployeeList
+import com.codarchy.presentations_landing.views.CharacterList
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
@@ -24,7 +24,7 @@ fun LandingScreenContent(viewModel: LandingViewModel = hiltViewModel()) {
                 is Loading -> Loading()
                 is NetworkError -> ErrorContent()
                 is GenericError -> ErrorContent()
-                is PersonListReady -> EmployeeList()
+                is CharacterListReady -> CharacterList()
                 is Empty -> EmptyScreen()
             }
         }

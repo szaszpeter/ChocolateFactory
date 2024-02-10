@@ -31,7 +31,7 @@ import androidx.compose.ui.unit.sp
 import androidx.core.text.HtmlCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
-import com.codarchy.data.model.PersonAdvancedDetails
+import com.codarchy.data.model.CharacterAdvancedDetails
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
@@ -45,7 +45,7 @@ fun ShowDetailScreenContent(viewModel: ShowDetailViewModel = hiltViewModel()) {
 }
 
 @Composable
-fun CharacterPage(person: PersonAdvancedDetails) {
+fun CharacterPage(person: CharacterAdvancedDetails) {
     Column(
         modifier = Modifier
             .padding(16.dp)

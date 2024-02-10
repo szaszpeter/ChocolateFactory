@@ -1,6 +1,6 @@
 package com.codarchy.data.model
 
-data class PersonAdvancedDetails(
+data class CharacterAdvancedDetails(
     val lastName: String,
     val description: String,
     val image: String,
@@ -10,12 +10,12 @@ data class PersonAdvancedDetails(
     val firstName: String,
     val country: String,
     val age: Int,
-    val favorite: PersonFavorite,
+    val favorite: CharacterFavorite,
     val gender: String,
     val email: String
 )
 
-data class PersonFavorite(
+data class CharacterFavorite(
     val color: String,
     val food: String,
     val randomString: String,
