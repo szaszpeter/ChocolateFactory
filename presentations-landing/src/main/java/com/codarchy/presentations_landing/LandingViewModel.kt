@@ -1,5 +1,6 @@
 package com.codarchy.presentations_landing
 
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -20,37 +21,43 @@ class LandingViewModel @Inject constructor(
     private val charactersInventoryUseCase: CharactersInventoryUseCase,
     private val saveSelectedCharacterUseCase: SaveSelectedCharacterUseCase,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher
-): ViewModel() {
+) : ViewModel() {
 
     val state = mutableStateOf<LandingScreenContent>(Loading)
-    val data = mutableListOf<CharacterDetails>()
-    var currentPage = mutableStateOf(1)
+    private val data = mutableListOf<CharacterDetails>()
+    val filteredData = mutableStateListOf<CharacterDetails>()
 
     init {
         fetchCharacters()
     }
 
-    fun fetchCharacters() {
+    private fun fetchCharacters() {
         viewModelScope.launch {
             state.value = Loading
             withContext(ioDispatcher) {
-                when(val characterResponse = charactersInventoryUseCase.invoke(1)) {
+                when (val characterResponse = charactersInventoryUseCase.invoke(1)) {
                     is ResultWrapper.NetworkError -> {
                         withContext(Dispatchers.Main) {
                             showNetworkError()
                         }
 
                     }
+
                     is ResultWrapper.GenericError -> {
                         withContext(Dispatchers.Main) {
                             showGenericError()
                         }
                     }
+
                     is ResultWrapper.Success -> {
                         if (characterResponse.value.results.isNotEmpty()) {
-                            state.value = CharacterListReady(characterResponse.value.results)
                             data.clear()
                             data.addAll(characterResponse.value.results)
+
+                            filteredData.clear()
+                            filteredData.addAll(data)
+
+                            state.value = CharacterListReady(filteredData)
                         } else {
                             state.value = Empty
                         }
@@ -68,19 +75,28 @@ class LandingViewModel @Inject constructor(
         state.value = NetworkError
     }
 
-    fun onPersonClicked(person: CharacterDetails) {
+    fun onCharacterClicked(person: CharacterDetails) {
         saveSelectedCharacterUseCase.invoke(person)
     }
 
     fun onSearch(query: String) {
-        // todo implement this feature
+        filteredData.clear()
+        data.map {
+            it.takeIf {
+                it.firstName.contains(other = query, ignoreCase = true)
+                        || it.lastName.contains(other = query, ignoreCase = true)
+            }?.let { filteredCharacter ->
+                filteredData.add(
+                    filteredCharacter
+                )
+            }
+        }
     }
 }
 
-
 sealed class LandingScreenContent
-data class CharacterListReady(val shows: List<CharacterDetails>) : LandingScreenContent()
+data class CharacterListReady(val characters: List<CharacterDetails>) : LandingScreenContent()
 object Loading : LandingScreenContent()
-object Empty: LandingScreenContent()
-object NetworkError: LandingScreenContent()
-object GenericError: LandingScreenContent()
+object Empty : LandingScreenContent()
+object NetworkError : LandingScreenContent()
+object GenericError : LandingScreenContent()

@@ -35,11 +35,10 @@ import com.codarchy.presentations_landing.extensions.navigateToDetails
 
 @Composable
 fun CharacterList(viewModel: LandingViewModel = hiltViewModel()) {
-
     LazyVerticalGrid(
         columns = GridCells.Adaptive(minSize = 128.dp),
     ) {
-        items(viewModel.data) {
+        items(viewModel.filteredData) {
             CharacterItem(it)
         }
     }
@@ -52,7 +51,7 @@ fun CharacterItem(character: CharacterDetails, viewModel: LandingViewModel = hil
         modifier = Modifier
             .padding(4.dp)
             .clickable {
-                viewModel.onPersonClicked(character)
+                viewModel.onCharacterClicked(character)
                 Navigation.findNavController(view).navigateToDetails()
             }
             .fillMaxWidth()

@@ -41,7 +41,10 @@ fun SearchBar(viewModel: LandingViewModel = hiltViewModel()) {
 
     TextField(
         value = text,
-        onValueChange = { text = it },
+        onValueChange = {
+            text = it
+            viewModel.onSearch(it)
+                        },
         label = { Text(text = stringResource(R.string.search_here)) },
         leadingIcon = { Icon(Icons.Filled.Search, contentDescription = null) },
         modifier = Modifier
