@@ -31,7 +31,7 @@ class LandingViewModel @Inject constructor(
         fetchCharacters()
     }
 
-    private fun fetchCharacters() {
+    fun fetchCharacters() {
         viewModelScope.launch {
             state.value = Loading
             withContext(ioDispatcher) {

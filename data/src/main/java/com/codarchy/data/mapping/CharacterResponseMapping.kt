@@ -9,10 +9,10 @@ import com.codarchy.data.network.Favorite
 fun CharacterResponse.toCharacterResult(): CharacterResults = CharacterResults(
     current = current,
     total = total,
-    results = results.map { it.toPersonDetails() }
+    results = results.map { it.toCharacter() }
 )
 
-fun com.codarchy.data.network.CharacterDetails.toPersonDetails(): CharacterDetails = CharacterDetails(
+fun com.codarchy.data.network.CharacterDetails.toCharacter(): CharacterDetails = CharacterDetails(
     firstName = firstName,
     lastName = lastName,
     favorite = favorite.toFavorite(),
