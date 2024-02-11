@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.text.ParagraphStyle
 import androidx.compose.ui.text.SpanStyle
@@ -29,6 +30,8 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.Navigation
 import coil.compose.AsyncImage
+import coil.request.ImageRequest
+import com.codarchy.common.extensions.generateImageRequest
 import com.codarchy.data.model.CharacterDetails
 import com.codarchy.presentations_landing.LandingViewModel
 import com.codarchy.presentations_landing.extensions.navigateToDetails
@@ -59,9 +62,8 @@ fun CharacterItem(character: CharacterDetails, viewModel: LandingViewModel = hil
         contentAlignment = Alignment.CenterStart
     ) {
         Column {
-
             AsyncImage(
-                model = character.image,
+                model = ImageRequest.Builder(LocalContext.current).generateImageRequest(character.image),
                 contentDescription = "Show Image",
                 contentScale = ContentScale.Fit,
                 modifier = Modifier
